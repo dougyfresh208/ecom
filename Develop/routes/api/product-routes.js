@@ -1,99 +1,87 @@
 const router = require('express').Router();
-const { Product, Category, Tag, ProductTag } = require('../../models');
+const { Category, Product } = require('../../models');
 
-// The `/api/products` endpoint
-
-// get all products
+// GET all categories with their associated Products
 router.get('/', (req, res) => {
-  // find all products
-  // be sure to include its associated Category and Tag data
+  Category.findAll({
+    include: [Product],
+  })
+    .then((categories) => res.json(categories))
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
-// get one product
+// GET a single category by its ID with its associated Products
 router.get('/:id', (req, res) => {
-  // find a single product by its `id`
-  // be sure to include its associated Category and Tag data
+  Category.findByPk(req.params.id, {
+    include: [Product],
+  })
+    .then((category) => {
+      if (!category) {
+        res.status(404).json({ message: 'No category found with this id' });
+        return;
+      }
+      res.json(category);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
-// create new product
+// POST a new category
 router.post('/', (req, res) => {
-  /* req.body should look like this...
-    {
-      product_name: "Basketball",
-      price: 200.00,
-      stock: 3,
-      tagIds: [1, 2, 3, 4]
-    }
-  */
-  Product.create(req.body)
-    .then((product) => {
-      // if there's product tags, we need to create pairings to bulk create in the ProductTag model
-      if (req.body.tagIds.length) {
-        const productTagIdArr = req.body.tagIds.map((tag_id) => {
-          return {
-            product_id: product.id,
-            tag_id,
-          };
-        });
-        return ProductTag.bulkCreate(productTagIdArr);
-      }
-      // if no product tags, just respond
-      res.status(200).json(product);
-    })
-    .then((productTagIds) => res.status(200).json(productTagIds))
+  Category.create({
+    category_name: req.body.category_name,
+  })
+    .then((category) => res.status(201).json(category))
     .catch((err) => {
       console.log(err);
       res.status(400).json(err);
     });
 });
 
-// update product
+// PUT to update a category by its ID
 router.put('/:id', (req, res) => {
-  // update product data
-  Product.update(req.body, {
+  Category.update(req.body, {
     where: {
       id: req.params.id,
     },
   })
-    .then((product) => {
-      if (req.body.tagIds && req.body.tagIds.length) {
-
-        ProductTag.findAll({
-          where: { product_id: req.params.id }
-        }).then((productTags) => {
-          // create filtered list of new tag_ids
-          const productTagIds = productTags.map(({ tag_id }) => tag_id);
-          const newProductTags = req.body.tagIds
-            .filter((tag_id) => !productTagIds.includes(tag_id))
-            .map((tag_id) => {
-              return {
-                product_id: req.params.id,
-                tag_id,
-              };
-            });
-
-          // figure out which ones to remove
-          const productTagsToRemove = productTags
-            .filter(({ tag_id }) => !req.body.tagIds.includes(tag_id))
-            .map(({ id }) => id);
-          // run both actions
-          return Promise.all([
-            ProductTag.destroy({ where: { id: productTagsToRemove } }),
-            ProductTag.bulkCreate(newProductTags),
-          ]);
-        });
+    .then((num) => {
+      if (num == 1) {
+        res.send({ message: 'Category was updated successfully.' });
+      } else {
+        res.send({ message: `Cannot update Category with id=${req.params.id}. Maybe Category was not found or req.body is empty!` });
       }
-
-      return res.json(product);
     })
     .catch((err) => {
-      // console.log(err);
-      res.status(400).json(err);
+      res.status(500).send({
+        message: 'Error updating Category with id=' + req.params.id,
+      });
     });
 });
 
+// DELETE a category by its ID
 router.delete('/:id', (req, res) => {
-  // delete one product by its `id` value
+  Category.destroy({
+    where: { id: req.params.id },
+  })
+    .then((num) => {
+      if (num == 1) {
+        res.send({ message: 'Category was deleted successfully!' });
+      } else {
+        res.send({ message: `Cannot delete Category with id=${req.params.id}. Maybe Category was not found!` });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: 'Could not delete Category with id=' + req.params.id,
+      });
+    });
 });
 
 module.exports = router;
+
