@@ -1,3 +1,7 @@
+const express = require('express');
+const router = express.Router();
+const { Product } = require('../../models');
+
 // DELETE a product by its ID
 router.delete('/:id', (req, res) => {
   Product.destroy({
