@@ -1,4 +1,4 @@
-# E-commerce Back End Starter Code
+# E-commerce Back End Application
 
 ## Description
 A backend application for an ecommerce site. A mySQL database underpins the ability to store, create, and delete products and categories.A video showing the insomnia interactions to MySql and route handling will be provided.
