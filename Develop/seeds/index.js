@@ -24,3 +24,5 @@ const seedAll = async () => {
 };
 
 seedAll();
+// Export seedAll for use in other files
+module.exports = seedAll;
