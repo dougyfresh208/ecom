@@ -1,7 +1,7 @@
-# E-commerce Back End Starter Code
+# E-commerce Back End Application
 
 ## Description
-A backend application for an ecommerce site. A mySQL database underpins the ability to store, create, and delete products and categories.A video showing the insomnia interactions to MySql and route handling will be provided.
+This is a backend application for an ecommerce site. A mySQL database underpins the ability to store, create, and delete products and categories. A video showing the insomnia interactions to MySql and route handling will be provided in the submission.
 
 ## Table of Contents
 - [Installation](#installation)
@@ -12,7 +12,7 @@ A backend application for an ecommerce site. A mySQL database underpins the abil
 - [Questions](#questions)
 
 ## Installation
-Run >npm I to ensure all required packages are available.  Then run >node server.js to start the application.
+Run >npm i to ensure all required packages are available.  Then run >node server.js to start the application.
 
 ## Usage
 n/a
