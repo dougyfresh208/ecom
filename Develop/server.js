@@ -17,7 +17,7 @@
 const express = require('express');
 const routes = require('./routes');
 const sequelize = require('./config/connection'); // Adjust the path if necessary
-const seedAll = require('../seeds'); // Adjust the path to your seeds/index.js
+const seedAll = require('./seeds'); // Adjust the path to your seeds/index.js
 
 const app = express();
 const PORT = process.env.PORT || 3001;
