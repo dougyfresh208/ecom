@@ -15,7 +15,7 @@ This is a backend application for an ecommerce site. A mySQL database underpins 
 Run >npm i to ensure all required packages are available.  Then run >node server.js to start the application.
 I have enhanced the server.js file to initialize and seed the database, then start the server to listen on port 3001.
 
-## Usage
+## Links to Screencast
 There are two links as the last segment had an error, which was rectified.  
 https://drive.google.com/file/d/1pSEkpPRoHLLdPCLZregq5Zd4tRnjniZl/view  
 https://drive.google.com/file/d/1DMUS9CNXsyZfaXYuxIldpW0umEQpaGxx/view  
