@@ -5,7 +5,7 @@ This is a backend application for an ecommerce site. A mySQL database underpins 
 
 ## Table of Contents
 - [Installation](#installation)
-- [Links to Screencast](#usage)
+- [Links to Screencast](#links)
 - [License](#license)
 - [Contributing](#contributing)
 - [Tests](#tests)
